@@ -39,8 +39,8 @@ fi
 BOOT_MOUNT=$(mount | awk '$3 ~ "/mnt/boot" {print $3}')
 BOOT_DEV=$(mount | awk '$3 ~ "/mnt/boot" {print $1}' | awk -F/ '{print $3}')
 
-if [ ${BOOT_MOUNT} -ne "" ] && [ ${BOOT_DEV} == ${TARGET_INSTALL_DEVICE}* ]; then
-	echo "/dev/${TARGET_INSTALL_DEVICE} partition has not been mounted to ${BOOT_MOUNT}"
+if [ -z ${BOOT_MOUNT} ] || [[ ${BOOT_DEV} != *${TARGET_INSTALL_DEVICE}* ]]; then
+	echo "Valid /dev/${TARGET_INSTALL_DEVICE} partition(s) have not been mounted. "
 	exit 3
 else
 	echo "BOOT_MOUNT=${BOOT_MOUNT}"
